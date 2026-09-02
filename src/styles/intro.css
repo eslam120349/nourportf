@@ -1,0 +1,211 @@
+/* ============================================================
+   Nour Youssef — Intro / preloader
+   Local copies of the shared tokens (Intro mounts as a sibling of
+   .page, outside its scope, so the custom properties are redeclared
+   on .intro-half rather than relied on being inherited).
+   ============================================================ */
+
+.intro-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Two full-size layers, each clipped to one side of the screen and
+   showing identical content — together they read as one page; on exit
+   each slides off in its own direction, tearing the page down the
+   middle gutter. */
+.intro-half {
+  --ink: #0b0b0b;
+  --paper: #f7f5ef;
+  --red: #d8232a;
+  --gray: #6b6a63;
+
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  background-image: radial-gradient(var(--paper) 1.1px, transparent 1.1px);
+  background-size: 10px 10px;
+  overflow: hidden;
+}
+
+.intro-half--left { border-right: 5px solid var(--red); }
+.intro-half--right { border-left: 5px solid var(--red); }
+
+/* speed-line burst behind the wordmark */
+.intro-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 900px;
+  height: 900px;
+  margin: -450px 0 0 -450px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    var(--paper) 0deg 4deg,
+    transparent 4deg 18deg
+  );
+  pointer-events: none;
+}
+
+.panel-tick {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--paper);
+  opacity: 0.85;
+}
+.panel-tick.tl { top: 26px; left: 26px; border-right: none; border-bottom: none; }
+.panel-tick.tr { top: 26px; right: 26px; border-left: none; border-bottom: none; }
+.panel-tick.bl { bottom: 26px; left: 26px; border-right: none; border-top: none; }
+.panel-tick.br { bottom: 26px; right: 26px; border-left: none; border-top: none; }
+
+/* comic sticker badge, top right */
+.intro-pow {
+  position: absolute;
+  top: 68px;
+  right: 96px;
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red);
+  color: var(--paper);
+  font-family: 'Bangers', cursive;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  clip-path: polygon(
+    50% 0%, 61% 32%, 92% 21%, 79% 50%,
+    92% 79%, 61% 68%, 50% 100%, 39% 68%,
+    8% 79%, 21% 50%, 8% 21%, 39% 32%
+  );
+}
+
+.intro-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.intro-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  font-family: 'Anton', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+  color: var(--paper);
+  font-size: clamp(2.6rem, 10vw, 6.5rem);
+}
+
+.intro-word {
+  display: inline-block;
+  -webkit-text-stroke: 1.5px var(--ink);
+  text-shadow: 4px 4px 0 var(--red);
+}
+
+.intro-underline {
+  display: block;
+  width: min(220px, 50vw);
+  height: 4px;
+  margin: 22px auto 20px;
+  background: var(--red);
+  transform-origin: center;
+}
+
+/* comic caption box — the rectangular narration box style,
+   folded corner included */
+.intro-caption {
+  position: relative;
+  max-width: 380px;
+  padding: 12px 22px 12px 18px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2.5px solid var(--paper);
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: clamp(0.72rem, 1.6vw, 0.85rem);
+  letter-spacing: 0.02em;
+  text-align: left;
+}
+.intro-caption::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 14px 14px 0;
+  border-color: transparent var(--ink) transparent transparent;
+}
+
+.intro-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--paper);
+  opacity: 0.6;
+}
+
+.intro-counter {
+  color: var(--red);
+  opacity: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.intro-progress-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(247, 245, 239, 0.15);
+}
+
+.intro-progress-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--red);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+@media (max-width: 640px) {
+  .intro-footer { padding: 0 20px; font-size: 9.5px; }
+  .panel-tick { width: 20px; height: 20px; }
+  .panel-tick.tl, .panel-tick.tr { top: 18px; }
+  .panel-tick.bl, .panel-tick.br { bottom: 18px; }
+  .panel-tick.tl, .panel-tick.bl { left: 18px; }
+  .panel-tick.tr, .panel-tick.br { right: 18px; }
+  .intro-pow { width: 68px; height: 68px; font-size: 16px; top: 46px; right: 46px; }
+  .intro-caption { max-width: 260px; font-size: 0.68rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-word, .intro-burst, .intro-pow, .intro-caption, .intro-half {
+    transition: none !important;
+  }
+}
